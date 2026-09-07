@@ -5,6 +5,7 @@ from torchvision import models, transforms
 from facenet_pytorch import MTCNN
 from PIL import Image
 import numpy as np
+import os
 
 st.set_page_config(page_title="Deepfake Face Detector", layout="centered")
 
@@ -21,6 +22,7 @@ with st.expander("What is a deepfake?"):
     )
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "best_model_v2_moredata.pt")
 THRESHOLD = 0.45
 
 @st.cache_resource
@@ -28,7 +30,7 @@ def load_model():
     model = models.efficientnet_b0(weights=None)
     in_features = model.classifier[1].in_features
     model.classifier = nn.Sequential(nn.Dropout(p=0.4), nn.Linear(in_features, 1))
-    model.load_state_dict(torch.load("demo/best_model_v2_moredata.pt", map_location=DEVICE))
+    model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
     model = model.to(DEVICE)
     model.eval()
     return model
@@ -59,7 +61,7 @@ uploaded_file = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     raw_image = Image.open(uploaded_file).convert("RGB")
-    st.image(raw_image, caption="Uploaded Image", use_container_width=True)
+    st.image(raw_image, caption="Uploaded Image", width='stretch')
 
     boxes, probs = mtcnn.detect(np.array(raw_image))
 
