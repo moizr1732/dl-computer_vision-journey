@@ -29,7 +29,7 @@ A deep learning model that detects face-swap deepfakes, built on FaceForensics++
 **The key finding**: the model hits 73.7% accuracy on the manipulation method it was trained on (Deepfakes), but drops to 45.2% accuracy on a manipulation method it's never seen (Face2Face) — a real, measured demonstration of a well-known generalization problem in deepfake detection, rather than a cherry-picked success number.
 
 [→ Full project details, methodology, and results](./deepfake-detection/README.md)
-
+Deep fake app : https://face-swap-detector.streamlit.app/
 ---
 
 *More projects will be added here as I progress through the specialization and take on new applied CV/DL challenges.*
