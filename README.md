@@ -1,91 +1,93 @@
-# MNIST Digit Classifier — Multi-Class DNN from Scratch (NumPy)
+# Deep Learning & Computer Vision Journey
 
-A fully-connected deep neural network built entirely from scratch using NumPy — no TensorFlow, PyTorch, or Keras — trained to classify handwritten digits (0–9) from the MNIST dataset.
+This repository documents my hands-on journey into deep learning and computer vision — built from first principles alongside Andrew Ng's [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning), and applied to real, non-trivial problems rather than toy datasets.
 
-This project extends a binary cat-vs-not-cat classifier (built as part of Andrew Ng's Deep Learning Specialization, Course 1) into a general-purpose, multi-class deep neural network by implementing softmax output and cross-entropy loss from first principles.
+## About me
 
-## Why This Project
+I'm Moiz Ur Rehman, currently:
+- Working through the **Agentic & Robotic AI Engineer** program at PIAIC, Air University, Islamabad
+- Completing Andrew Ng's Deep Learning Specialization (currently on Course 3: Structuring ML Projects)
+- Machine learning intern at FlyRank AI
+- Freelancing in web development, automation, and applied AI/ML for B2B clients
 
-Most deep learning tutorials jump straight to frameworks, which hides the actual mechanics of how a neural network learns. This project implements every core piece manually:
+This repo is where I turn what I'm learning into real, working projects — including the messy parts (debugging, iteration, and honest reporting of what didn't work), not just polished final numbers.
 
-- Parameter initialization
-- Forward propagation (linear + activation)
-- Softmax output layer and cross-entropy cost
-- Backpropagation (gradients derived and coded manually)
-- Gradient descent parameter updates
+## Philosophy behind this repo
 
-The goal is to understand *why* a network trains, not just *how* to call `.fit()`.
+Most beginner ML portfolios show a single accuracy number and stop there. I'm trying to do something different here: every project in this repo aims to include —
+- **Real methodology**, not just running a tutorial (proper train/dev/test splitting, avoiding data leakage, bias-variance analysis)
+- **Honest evaluation**, including where and why a model fails, not just where it succeeds
+- **A working demo**, so the project can actually be tried, not just read about
+- **Applied Course 3 thinking** — structuring ML projects the way Andrew Ng's course teaches, applied to real, sometimes adversarial problems
 
-## Dataset
+## Projects
 
-**MNIST** — 70,000 grayscale images of handwritten digits (28×28 pixels), split into 60,000 training and 10,000 test examples.
+### 1. [Deepfake Face-Swap Detector](./deepfake-detection)
 
-Loaded via:
-```python
-from tensorflow.keras.datasets import mnist
-(X_train, y_train), (X_test, y_test) = mnist.load_data()
-```
+A deep learning model that detects face-swap deepfakes, built on FaceForensics++ and EfficientNet-B0 transfer learning. Includes a live Streamlit demo.
 
-## Project Structure
+**The key finding**: the model hits 73.7% accuracy on the manipulation method it was trained on (Deepfakes), but drops to 45.2% accuracy on a manipulation method it's never seen (Face2Face) — a real, measured demonstration of a well-known generalization problem in deepfake detection, rather than a cherry-picked success number.
 
-```
-mnist-dnn-numpy/
-├── data/                 # (data is downloaded at runtime, not stored here)
-├── src/
-│   ├── dnn_utils.py      # core reusable functions: init, forward/backward prop, activations
-│   ├── model.py          # L_layer_model — full training loop
-│   └── train.py          # script to load data, preprocess, train, evaluate
-├── notebooks/
-│   └── experiments.ipynb # architecture/activation experiments + cost curve plots
-├── results/              # saved plots, accuracy logs
-└── README.md
-```
+[→ Full project details, methodology, and results](./deepfake-detection/README.md)
 
-## Pipeline Overview
+---
 
-1. **Preprocessing** — flatten 28×28 images into 784-length vectors, normalize pixel values to [0, 1], one-hot encode labels into 10-class vectors.
-2. **Model** — configurable fully-connected architecture via `layer_dims`, e.g. `[784, 20, 7, 10]`.
-3. **Output layer** — softmax activation (generalizes sigmoid to multi-class) paired with cross-entropy loss.
-4. **Training** — full-batch gradient descent, with cost tracked and plotted every N iterations.
-5. **Evaluation** — training and test accuracy, confusion matrix, and cost curve comparisons across architectures.
+*More projects will be added here as I progress through the specialization and take on new applied CV/DL challenges.*
 
-## Key Implementation Detail
+## Tech stack across this repo
 
-Despite moving from binary to multi-class classification, the backpropagation formula for the output layer remains unchanged:
+- **PyTorch** / **TensorFlow** — model development
+- **Transfer learning** — EfficientNet, and other pretrained backbones as projects require
+- **Computer vision tooling** — OpenCV, MTCNN/facenet-pytorch for face detection
+- **Streamlit** — interactive demos for finished models
+- **Google Colab** — GPU-accelerated training
 
-```
-dZ_output = A_output - Y
-```
+## Connect
 
-This is because the derivative of cross-entropy loss with respect to a softmax output simplifies to the same clean form as sigmoid + binary cross-entropy — meaning the core backprop logic from the original binary classifier carries over directly.
+If you're reviewing this repo as part of a hiring process, freelance inquiry, or just want to discuss any of the projects — feel free to reach out via # Deep Learning & Computer Vision Journey
 
-## Experiments
+This repository documents my hands-on journey into deep learning and computer vision — built from first principles alongside Andrew Ng's [Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning), and applied to real, non-trivial problems rather than toy datasets.
 
-Different configurations were tested to observe their effect on convergence and accuracy:
+## About me
 
-| Architecture           | Hidden Activation | Test Accuracy |
-|-------------------------|-------------------|----------------|
-| [784, 20, 10]           | ReLU               | TBD            |
-| [784, 20, 7, 10]        | ReLU               | TBD            |
-| [784, 64, 32, 10]       | ReLU               | TBD            |
-| [784, 20, 7, 10]        | tanh               | TBD            |
+I'm Moiz Ur Rehman, currently:
+- Working through the **Agentic & Robotic AI Engineer** program at PIAIC, Air University, Islamabad
+- Completing Andrew Ng's Deep Learning Specialization (currently on Course 3: Structuring ML Projects)
+- Machine learning intern at FlyRank AI
+- Freelancing in web development, automation, and applied AI/ML for B2B clients
 
-*(Results to be filled in after running experiments — see `notebooks/experiments.ipynb`)*
+This repo is where I turn what I'm learning into real, working projects — including the messy parts (debugging, iteration, and honest reporting of what didn't work), not just polished final numbers.
 
-## What This Project Demonstrates
+## Philosophy behind this repo
 
-- Understanding of forward/backward propagation mechanics, not just framework usage
-- Ability to extend a binary classifier to multi-class classification (softmax + cross-entropy derivation)
-- Experimentation with architecture depth/width and activation function choice
-- Clean, reusable, non-hardcoded neural network implementation
+Most beginner ML portfolios show a single accuracy number and stop there. I'm trying to do something different here: every project in this repo aims to include —
+- **Real methodology**, not just running a tutorial (proper train/dev/test splitting, avoiding data leakage, bias-variance analysis)
+- **Honest evaluation**, including where and why a model fails, not just where it succeeds
+- **A working demo**, so the project can actually be tried, not just read about
+- **Applied Course 3 thinking** — structuring ML projects the way Andrew Ng's course teaches, applied to real, sometimes adversarial problems
 
-## Tech Stack
+## Projects
 
-- Python
-- NumPy
-- Matplotlib (visualization)
-- scikit-learn / TensorFlow (dataset loading only — not used for modeling)
+### 1. [Deepfake Face-Swap Detector](./deepfake-detection)
 
-## Background
+A deep learning model that detects face-swap deepfakes, built on FaceForensics++ and EfficientNet-B0 transfer learning. Includes a live Streamlit demo.
 
-Built while completing Course 1 of Andrew Ng's Deep Learning Specialization (DeepLearning.AI), as a self-directed extension beyond the course's binary classification assignment.
+**The key finding**: the model hits 73.7% accuracy on the manipulation method it was trained on (Deepfakes), but drops to 45.2% accuracy on a manipulation method it's never seen (Face2Face) — a real, measured demonstration of a well-known generalization problem in deepfake detection, rather than a cherry-picked success number.
+
+[→ Full project details, methodology, and results](./deepfake-detection/README.md)
+
+---
+
+*More projects will be added here as I progress through the specialization and take on new applied CV/DL challenges.*
+
+## Tech stack across this repo
+
+- **PyTorch** / **TensorFlow** — model development
+- **Transfer learning** — EfficientNet, and other pretrained backbones as projects require
+- **Computer vision tooling** — OpenCV, MTCNN/facenet-pytorch for face detection
+- **Streamlit** — interactive demos for finished models
+- **Google Colab** — GPU-accelerated training
+
+## Connect
+
+If you're reviewing this repo as part of a hiring process, freelance inquiry, or just want to discuss any of the projects — feel free to reach out via [LinkedIn](https://www.linkedin.com/in/moiz-ur-rehman-ml/) or [GitHub](https://github.com/moizr1732).
